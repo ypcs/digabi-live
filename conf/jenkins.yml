@@ -74,9 +74,6 @@
     publishers:
         - github-notifier
 
-
-
-
 - project:
     name: dos
     description: 'Build DOS images using live-build.'
@@ -102,5 +99,3 @@
 # build-publisher, see http://ci.openstack.org/jenkins-job-builder/publishers.html
 # email > recipients
 # pipeline
-# 
-
