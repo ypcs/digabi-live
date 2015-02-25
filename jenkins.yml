@@ -21,19 +21,9 @@
                 - feature/*
             browser_url: https://github.com/ypcs/digabi-os
 
-- project:
-    name: dos
-    distributions: !!python/tuple [jessie,sid]
-    architectures: !!python/tuple &architectures
-        - amd64
-        - i386
-    axis_a:
-        type: user-defined
-        name: architectures
-        values: *architectures
 
 - job-template:
-    name: '{name}-config'
+    name: '{name}-build'
     project-type: freestyle
     parameters:
         - string:
@@ -50,21 +40,21 @@
         - choice:
             name: DIGABI_BUILD_CPUS
             choices:
-                - 2
-                - 4
-                - 8
-                - 1
+                - '2'
+                - '4'
+                - '8'
+                - '1'
             description: 'How many CPU cores to use for this build?'
         - choice:
             name: DIGABI_BUILD_MEM
             choices:
-                - 2048
-                - 4096
-                - 8192
-                - 16384
-                - 1024
-                - 512
-                - 256
+                - '2048'
+                - '4096'
+                - '8192'
+                - '16384'
+                - '1024'
+                - '512'
+                - '256'
             description: 'How much memory to use for this build?'
         - choice:
             name: VAGRANT_DEFAULT_PROVIDER
@@ -80,30 +70,19 @@
             default: false
             description: 'Do a debug build.'
     builders:
-        - github-notifier
         - shell: 'make build-{name}'
 
-- job:
-    name: dos-live
-    project-type: freestyle
-    defaults: global
-    disabled: false
-    display-name: 'Digabi OS'
-    concurrent: false
 
-- job:
-    name: dos-kernel
-    project-type: freestyle
-    defaults: global
-    disabled: false
-    display-name: 'Digabi OS kernel'
-    concurrent: false
 
-- job:
-    name: rebuild-package
-    project-type: freestyle
-    defaults: global
-    disabled: false
-    display-name: 'Rebuild .deb packages'
-    concurrent: true
-
+- project:
+    name: dos
+    distributions: !!python/tuple [jessie,sid]
+    architectures: !!python/tuple &architectures
+        - amd64
+        - i386
+    axis_a:
+        type: user-defined
+        name: architectures
+        values: *architectures
+    jobs:
+        - '{name}-build'
