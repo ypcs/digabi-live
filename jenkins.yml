@@ -36,18 +36,18 @@
     name: '{name}-config'
     project-type: freestyle
     parameters:
-        - string
-            name: DEBIAN_MIRROR
+        - string:
+            name:   DEBIAN_MIRROR
             default: http://http.debian.net/debian
             description: 'Default mirror for downloading packages from.'
-        - choice
+        - choice:
             name: DISTRIBUTION
             choices:
                 - unstable
                 - testing
                 - stable
             description: 'Target distribution we are building for.'
-        - choice
+        - choice:
             name: DIGABI_BUILD_CPUS
             choices:
                 - 2
@@ -55,7 +55,7 @@
                 - 8
                 - 1
             description: 'How many CPU cores to use for this build?'
-        - choice
+        - choice:
             name: DIGABI_BUILD_MEM
             choices:
                 - 2048
@@ -66,16 +66,16 @@
                 - 512
                 - 256
             description: 'How much memory to use for this build?'
-        - choice
+        - choice:
             name: VAGRANT_DEFAULT_PROVIDER
             choices:
                 - virtualbox
                 - vmware_workstation
-        - password
+        - password:
             name: ROOT_PASSWORD
             default:
             description: 'Root password to be used with this build.'
-        - bool
+        - bool:
             name: DEBUG
             default: false
             description: 'Do a debug build.'
