@@ -1,5 +1,5 @@
 - project:
-    name: digabi-os-project
+    name: dos
     distributions: !!python/tuple [jessie,sid]
     architectures: !!python/tuple &architectures
         - amd64
@@ -10,22 +10,55 @@
         values: *architectures
 
 - job-template:
-    name: '{name}-source'
-    project-type: matrix
-    axes:
-        - axis:
-            type: user-defined
-            name: distribution
-            values: '{obj:distributions}'
-        - axis: '{obj_axis_a}'
-
-- builder:
-    name: make-build
-    builders:
-        - shell: 'make build'
+    name: '{name}-config'
+    project-type: freestyle
+    parameters:
+        - string
+            name: DEBIAN_MIRROR
+            default: http://http.debian.net/debian
+            description: 'Default mirror for downloading packages from.'
+        - choice
+            name: DISTRIBUTION
+            choices:
+                - unstable
+                - testing
+                - stable
+            description: 'Target distribution we are building for.'
+        - choice
+            name: DIGABI_BUILD_CPUS
+            choices:
+                - 2
+                - 4
+                - 8
+                - 1
+            description: 'How many CPU cores to use for this build?'
+        - choice
+            name: DIGABI_BUILD_MEM
+            choices:
+                - 2048
+                - 4096
+                - 8192
+                - 16384
+                - 1024
+                - 512
+                - 256
+            description: 'How much memory to use for this build?'
+        - choice
+            name: VAGRANT_DEFAULT_PROVIDER
+            choices:
+                - virtualbox
+                - vmware_workstation
+        - password
+            name: ROOT_PASSWORD
+            default:
+            description: 'Root password to be used with this build.'
+        - bool
+            name: DEBUG
+            default: false
+            description: 'Do a debug build.'
 
 - job:
-    name: digabi-os
+    name: dos-live
     project-type: freestyle
     defaults: global
     disabled: false
