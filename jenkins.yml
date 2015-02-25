@@ -1,0 +1,50 @@
+- project:
+    name: digabi-os-project
+    distributions: !!python/tuple [jessie,sid]
+    architectures: !!python/tuple &architectures
+        - amd64
+        - i386
+    axis_a:
+        type: user-defined
+        name: architectures
+        values: *architectures
+
+- job-template:
+    name: '{name}-source'
+    project-type: matrix
+    axes:
+        - axis:
+            type: user-defined
+            name: distribution
+            values: '{obj:distributions}'
+        - axis: '{obj_axis_a}'
+
+- builder:
+    name: make-build
+    builders:
+        - shell: 'make build'
+
+- job:
+    name: digabi-os
+    project-type: freestyle
+    defaults: global
+    disabled: false
+    display-name: 'Digabi OS'
+    concurrent: false
+
+- job:
+    name: dos-kernel
+    project-type: freestyle
+    defaults: global
+    disabled: false
+    display-name: 'Digabi OS kernel'
+    concurrent: false
+
+- job:
+    name: rebuild-package
+    project-type: freestyle
+    defaults: global
+    disabled: false
+    display-name: 'Rebuild .deb packages'
+    concurrent: true
+
