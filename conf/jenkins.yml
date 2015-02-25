@@ -27,7 +27,7 @@
     project-type: freestyle
     parameters:
         - string:
-            name:   DEBIAN_MIRROR
+            name: DEBIAN_MIRROR
             default: http://http.debian.net/debian
             description: 'Default mirror for downloading packages from.'
         - choice:
