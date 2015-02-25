@@ -1,3 +1,23 @@
+- scm:
+    name: dos
+    scm:
+        - git:
+            url: https://github.com/digabi/digabi-os.git
+            branches:
+                - master
+                - feature/*
+            browser_url: https://github.com/digabi/digabi-os
+
+- scm:
+    name: dos-ypcs
+    scm:
+        - git:
+            url: https://github.com/ypcs/digabi-os.git
+            branches:
+                - master
+                - feature/*
+            browser_url: https://github.com/ypcs/digabi-os
+
 - project:
     name: dos
     distributions: !!python/tuple [jessie,sid]
@@ -56,6 +76,9 @@
             name: DEBUG
             default: false
             description: 'Do a debug build.'
+    builders:
+        - github-notifier
+        - shell: 'make build-{name}'
 
 - job:
     name: dos-live
