@@ -71,11 +71,15 @@
             description: 'Do a debug build.'
     builders:
         - shell: 'make build-{name}'
+    publishers:
+        - github-notifier
+
 
 
 
 - project:
     name: dos
+    description: 'Build DOS images using live-build.'
     distributions: !!python/tuple [jessie,sid]
     architectures: !!python/tuple &architectures
         - amd64
@@ -86,3 +90,17 @@
         values: *architectures
     jobs:
         - '{name}-build'
+    publishers:
+        - archive:
+            artifacts: 'dist/*'
+            fingerprint: true
+        - logparser:
+            parse-rules: "conf/logparser.conf"
+            unstable-on-warning: true
+            fail-on-error: true
+
+# build-publisher, see http://ci.openstack.org/jenkins-job-builder/publishers.html
+# email > recipients
+# pipeline
+# 
+
